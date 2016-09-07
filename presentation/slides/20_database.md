@@ -150,6 +150,10 @@ Using these paths, you can perform simultaneous updates to multiple locations in
 ~~~SECTION:notes~~~
 Using a transaction prevents star counts from being incorrect if multiple users star the same post at the same time or the client had stale data. If the transaction is rejected, the server returns the current value to the client, which runs the transaction again with the updated value. This repeats until the transaction is accepted or you abort the transaction.
 
+The update function takes the current state of the data as an argument and returns the new desired state you would like to write.
+
+If another client writes to the location before your new value is successfully written, your update function is called again with the new current value, and the write is retried.
+
 Returns a Promise containing {committed: boolean, snapshot: nullable firebase.database.DataSnapshot}
 ~~~ENDSECTION~~~
 
