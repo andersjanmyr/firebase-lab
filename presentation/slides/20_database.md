@@ -37,6 +37,26 @@
     });
 
 !SLIDE code
+# Database Reading, List (IOS)
+
+    @@@ Swift
+    var ref: FIRDatabaseReference!
+    ref = FIRDatabase.database().reference()
+
+    // Listen for new comments in the Firebase database
+    commentsRef.observe(.childAdded, with: { (snapshot) -> Void in
+      self.comments.append(snapshot)
+      self.tableView.insertRows(at: [IndexPath(row: self.comments.count-1, section: self.kSectionComments)], with: UITableViewRowAnimation.automatic)
+    })
+    // Listen for deleted comments in the Firebase database
+    commentsRef.observe(.childRemoved, with: { (snapshot) -> Void in
+      let index = self.indexOfMessage(snapshot)
+      self.comments.remove(at: index)
+      self.tableView.deleteRows(at: [IndexPath(row: index, section: self.kSectionComments)], with: UITableViewRowAnimation.automatic)
+    })
+
+
+!SLIDE code
 # Example Value (web)
 
     @@@ Javascript
@@ -47,6 +67,23 @@
     starCountRef.on('value', function(snapshot) {
         updateStarCount(postElement, snapshot.val());
     });
+
+!SLIDE code
+# Example Value (IOS)
+
+    @@@ Swift
+    // Get a reference to a value
+    var ref = self.ref.child("users").child(user.uid)
+    // or
+    var ref = self.ref.child("users/(user.uid)")
+
+    // Listen for changes
+    refHandle = ref.observe(FIRDataEventType.value, with: { (snapshot) in
+        // Get all the users properties
+        let value = snapshot.value as? NSDictionary
+        let username = value?["username"] as! String
+    })
+
 
 !SLIDE bullets
 # Database Writing
@@ -71,6 +108,15 @@
 ~~~SECTION:notes~~~
 Using set() overwrites data at the specified location, including any child nodes.
 ~~~ENDSECTION~~~
+
+!SLIDE code
+# Database Writing, setValue (IOS)
+
+    @@@ Swift
+    // Set the value of /users/<uid>/username
+    ref.child("users").child(user.uid).setValue(["username": username])
+    // Or
+    ref.child("users/(user.uid)/username").setValue(username)
 
 !SLIDE code
 # Database Writing, Push (web)
@@ -125,6 +171,25 @@ Using these paths, you can perform simultaneous updates to multiple locations in
 ~~~ENDSECTION~~~
 
 !SLIDE code
+# Write, childByAutoId, updateChildValues (IOS)
+
+    @@@ Swift
+    let key = ref.child("posts").childByAutoId().key
+    let post = ["uid": userID,
+        "author": username,
+        "title": title,
+        "body": body]
+    let childUpdates = ["/posts/\(key)": post,
+        "/user-posts/\(userID)/\(key)/": post]
+    ref.updateChildValues(childUpdates)
+
+~~~SECTION:notes~~~
+Swift does not support the simple update case above and instead we have to rely
+on the two-step variant of getting a key and then adding it.
+~~~ENDSECTION~~~
+
+
+!SLIDE code
 # Database Writing, Transaction (web)
 
     @@@ Javascript
@@ -156,6 +221,26 @@ If another client writes to the location before your new value is successfully w
 
 Returns a Promise containing {committed: boolean, snapshot: nullable firebase.database.DataSnapshot}
 ~~~ENDSECTION~~~
+
+!SLIDE code
+# Database Writing, Transaction (web)
+
+    @@@ Swift
+    ref.runTransactionBlock({ (currentData: FIRMutableData) -> FIRTransactionResult in
+      if var post = currentData.value as? [String : AnyObject], let uid = FIRAuth.auth()?.currentUser?.uid {
+        var stars : Dictionary<String, Bool>
+        stars = post["stars"] as? [String : Bool] ?? [:]
+        var starCount = post["starCount"] as? Int ?? 0
+        // Update currentData
+        currentData.value = post
+        return FIRTransactionResult.success(withValue: currentData)
+      }
+      return FIRTransactionResult.success(withValue: currentData)
+    }) { (error, committed, snapshot) in
+      if let error = error {
+        print(error.localizedDescription)
+      }
+
 
 !SLIDE code
 # Database Remove (web)

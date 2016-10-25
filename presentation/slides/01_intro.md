@@ -11,8 +11,7 @@
 * Authentication
 * Realtime Database
 * Storage (images, videos, etc.)
-* Hosting
-* Analytics
-* Other
-  - Cloud Messaging, Remote Config, Crash Reporting
+* Other:
+  - Hosting, Analytics, Ads, Crash Reporting
+  - Cloud Messaging, Dynamic Linking, Remote Config
   - Test Lab (device testing as a service)
