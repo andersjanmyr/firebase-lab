@@ -9,12 +9,20 @@
 ### IOS
 
 * Install [CocoaPods](https://guides.cocoapods.org/using/getting-started.html)
+* `cd friendlychat/ios-starter/swift-starter`
+* `pod install`
 
 ### Android
 
-* Install
+* `cd friendlychat/android-starter`
+* Make sure you can build the project with Android Studio or with Gradle
+  `./gradlew connectedAndroidTest` (will fail unless you have a device or
+  emulator configured, but will install everything)
 
-### Web 
+### Web
+
+* `cd friendlychat/web-starter`
+* `npm install -g firebase-tools`
 
 
 ## Instructions
@@ -42,10 +50,14 @@
 
 ## Extra
 
+Choose what you think is interesting and add to your application.
+
+* Make it possible to `edit` and `delete` messages.
+* Change security settings, `database rules`, to only allow editing and
+  deleting your own messages.
 * Add dynamic linking to your application.
+* Add Notifications.
+* Add invites to your application.
 * Set up another authentication provider.
-
-
-
 
 
