@@ -1,17 +1,8 @@
-!SLIDE bullets small
-# Code and Slides
+!SLIDE center
+# Lab Time
 
-## Code
+* https://github.com/andersjanmyr/firebase-lab/blob/master/instructions.md#firebase-lab
 
-* http:://github.com/andersjanmyr/TODO CODE HERE 
-
-## Presentation
-
-* http://github.com/andersjanmyr/TODO PRESENTATION HERE
-
-
-!SLIDE
-# Questions?
 ### anders.janmyr@jayway.com
 ### http://anders.janmyr.com
 ### @andersjanmyr

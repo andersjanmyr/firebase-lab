@@ -256,5 +256,38 @@ Returns a Promise containing {committed: boolean, snapshot: nullable firebase.da
         });
 
 ~~~SECTION:notes~~~
-Returns Promise containing void, Resolves when remove on server is complete.~~~ENDSECTION~~~
+Returns Promise containing void, Resolves when remove on server is complete.
+~~~ENDSECTION~~~
+
+!SLIDE code
+# Database Offline (iOS)
+
+    @@@ Swift
+    FIRDatabase.database().persistenceEnabled = true
+
+    // Explicitly sync
+    let scoresRef = FIRDatabase.database().referenceWithPath("scores")
+    scoresRef.keepSynced(true)
+
+    // Old executed queries work
+    scoresRef.queryOrderedByValue().queryLimitedToLast(4).observeEventType(.ChildAdded, withBlock: { snapshot in
+        print("The \(snapshot.key) dinosaur's score is \(snapshot.value)")
+    })
+~~~SECTION:notes~~~
+When offline is enabled, it is possible to query for already queried data.
+~~~ENDSECTION~~~
+
+!SLIDE bullets
+# Database Structure
+
+* Avoid nesting data
+* Flatten data structures
+* Create data that scales
+
+~~~SECTION:notes~~~
+When you fetch data at a location in your database, you also retrieve all of
+its child nodes. Iterating data is problematic
+Two-way relationships should probably be duplicated.
+~~~ENDSECTION~~~
+
 

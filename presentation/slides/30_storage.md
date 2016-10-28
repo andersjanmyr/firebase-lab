@@ -107,7 +107,7 @@
   - `cacheControl`, `contentEncoding`, `contentType`, `contentLanguage`, `contentDisposition`
   - `customMetadata`
 * Immutable properties
-  - `bucket`, `fullPath`, `name`, `size`
+  - `bucket`, `fullPath`, `name`, `size`, `downloadURLs`
   - `timeCreated`, `updated`, `md5hash`
   - `generation`, `metageneration`
 
@@ -116,19 +116,22 @@
 
 
 !SLIDE code
-# Storage
+# Storage Delete (IOS
 
-    @@@ Javascript
+    @@@ Swift
+    // Create a reference to the file to delete
+    let desertRef = storageRef.child("images/desert.jpg")
+
+    // Delete the file
+    desertRef.deleteWithCompletion { (error) -> Void in
+      if (error != nil) {
+        // Uh-oh, an error occurred!
+      } else {
+        // File deleted successfully
+      }
+    }
 
 ~~~SECTION:notes~~~
 ~~~ENDSECTION~~~
 
-
-!SLIDE code
-# Storage
-
-    @@@ Javascript
-
-~~~SECTION:notes~~~
-~~~ENDSECTION~~~
 

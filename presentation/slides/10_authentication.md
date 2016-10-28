@@ -21,10 +21,11 @@
 
 
 !SLIDE bullets
+
 # Authentication (IOS, Android)
 
-    * Register your application.
-    * Do the OAuth2 dance
-      - (too long to describe, we'll do it in the lab)
-    * Use the token to authenticate with Firebase
+* Register your application.
+* Do the OAuth2 dance
+  - (too long to describe, we'll do it in the lab)
+* Use the token to authenticate with Firebase
 
